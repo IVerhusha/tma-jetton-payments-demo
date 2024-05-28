@@ -1,0 +1,32 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "shortName": "Duck 1",
+      "description": "Elegant duck toy with a hat and a purse.",
+      "price": 0.99,
+      "image": "https://i.imgur.com/Y2zTYLC.png"
+    },
+    {
+      "id": 2,
+      "shortName": "Duck 2",
+      "description": "Soft toy duckling with a hat and glasses.",
+      "price": 1.99,
+      "image": "https://i.imgur.com/qCyo3sZ.png"
+    },
+    {
+      "id": 3,
+      "shortName": "Duck 3",
+      "description": "Beach-ready duck toy with sunglasses, bandana, and watches",
+      "price": 2.99,
+      "image": "https://i.imgur.com/1EWcvWU.png"
+    },
+    {
+      "id": 4,
+      "shortName": "Duck 4",
+      "description": "The cutest duckling ever",
+      "price": 9.99,
+      "image": "https://i.imgur.com/VbNOdIQ.png"
+    }
+  ]
+}

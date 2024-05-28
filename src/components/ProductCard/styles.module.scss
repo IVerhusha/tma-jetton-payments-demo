@@ -1,0 +1,53 @@
+@import 'src/assets/styles/helpers/all';
+
+.card {
+  background-color: $neutral800;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 140px;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .image {
+    border-radius: 4px;
+    height: 100px;
+    width: 100px;
+  }
+
+  h5 {
+    @include headline-h5();
+  }
+
+  .description {
+    @include caption($neutral400);
+  }
+
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+
+    .button {
+      padding: 6px;
+    }
+
+    .quantity {
+      @include subtitle-l();
+      text-align: center;
+      width: 24px;
+    }
+  }
+}
+
+

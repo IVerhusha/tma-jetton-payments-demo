@@ -1,0 +1,29 @@
+@import 'variables';
+
+@mixin globalScrollBar() {
+  @media (pointer: fine) {
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: $neutral800;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $primary30012;
+      border: 2px solid $neutral800;
+      border-radius: 4px;
+      transition: 0.3s;
+
+      &:hover {
+        background: $primary500;
+      }
+
+      &:active {
+        background: $primary500;
+      }
+    }
+  }
+}

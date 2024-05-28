@@ -1,0 +1,128 @@
+@import 'variables';
+
+@mixin headline-h1($color: $neutral0) {
+  color: $color;
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 48px;
+}
+
+@mixin headline-h2($color: $neutral0) {
+  color: $color;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 38px;
+}
+
+@mixin headline-h3($color: $neutral0) {
+  color: $color;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 28px;
+}
+
+@mixin headline-h4($color: $neutral0) {
+  color: $color;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+@mixin headline-h5($color: $neutral0) {
+  color: $color;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+@mixin headline-h6($color: $neutral0) {
+  color: $color;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+@mixin subtitle-l($color: $neutral0) {
+  color: $color;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+@mixin subtitle-m($color: $neutral0) {
+  color: $color;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22px;
+}
+
+@mixin body-l($color: $neutral0) {
+  color: $color;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+@mixin body-m($color: $neutral0) {
+  color: $color;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+@mixin button-l($color: $neutral0) {
+  color: $color;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+@mixin button-m($color: $neutral0) {
+  color: $color;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+@mixin button-s($color: $neutral0) {
+  color: $color;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+@mixin caption($color: $neutral0) {
+  color: $color;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+@mixin overline($color: $neutral0) {
+  color: $color;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 18px;
+  text-transform: uppercase;
+}
+
+@mixin label($color: $neutral0) {
+  color: $color;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+}
+
+@mixin label1($color: $neutral0) {
+  color: $color;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 12px;
+}
