@@ -26,8 +26,6 @@ const Main = () => {
     ? { text: 'View order', onClick: handleViewOrder }
     : { text: 'Connect wallet', onClick: handleConnectWallet });
 
-
-
   useEffect(() => {
     if (Object.keys(cart).length && !mainButton.isVisible) {
       mainButton.show();
