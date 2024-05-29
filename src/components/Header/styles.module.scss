@@ -1,0 +1,16 @@
+@import 'src/assets/styles/helpers/all';
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 12px;
+
+  .controls {
+    display: flex;
+    gap: 12px;
+  }
+}
+
+

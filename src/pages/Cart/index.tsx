@@ -5,9 +5,8 @@ import { useMainButton } from '@/hooks/useMainButton';
 import { useTonAddress, useTonConnectModal, useTonConnectUI } from '@tonconnect/ui-react';
 import { useApp } from '@/context/app-context.tsx';
 import CartItem from '@/components/CartItem';
+import Header from '@/components/Header';
 import { useBackButton } from '@/hooks/useBackButton.ts';
-import { separateTonAddress } from '@/helpers/common-helpers.ts';
-import { DisconnectIcon } from '@/constants/icons.tsx';
 import styles from './styles.module.scss';
 
 
@@ -58,12 +57,7 @@ const Cart = () => {
 
   return (
     <div className={styles.wrapper}>
-      {address && <div className={styles.wallet}>
-          Address: {separateTonAddress(address)}
-          <button onClick={() => tonConnectUI.disconnect()}>
-              <DisconnectIcon />
-          </button>
-      </div>}
+      <Header />
       {Object.values(cart).map(product => (
         <CartItem
           product={cart[product.id]}

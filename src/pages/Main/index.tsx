@@ -1,23 +1,32 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTonAddress, useTonConnectModal } from '@tonconnect/ui-react';
 import { useMainButton } from '@/hooks/useMainButton';
 import data from '@/assets/products.json';
 import ProductCard from '@/components/ProductCard';
+import Header from '@/components/Header';
 import { useApp } from '@/context/app-context.tsx';
 import styles from './styles.module.scss';
-
 
 const Main = () => {
   const navigate = useNavigate();
   const { cart, addProduct, removeProduct } = useApp();
+  const address = useTonAddress();
+  const { open } = useTonConnectModal();
 
-  const handleClick = useCallback(() => {
+  const handleViewOrder = useCallback(() => {
     navigate('/cart');
   }, [navigate]);
 
-  const mainButton = useMainButton({
-    text: 'View order', onClick: handleClick,
-  });
+  const handleConnectWallet = useCallback(() => {
+    open();
+  }, [open]);
+
+  const mainButton = useMainButton(address
+    ? { text: 'View order', onClick: handleViewOrder }
+    : { text: 'Connect wallet', onClick: handleConnectWallet });
+
+
 
   useEffect(() => {
     if (Object.keys(cart).length && !mainButton.isVisible) {
@@ -27,10 +36,11 @@ const Main = () => {
     if (!Object.keys(cart).length) {
       mainButton.hide();
     }
-  }, [cart, mainButton]);
+  }, [cart, mainButton, address]);
 
   return (
     <div className={styles.wrapper}>
+      <Header />
       {data.products.map(product => (
         <ProductCard
           product={product.id in cart ? cart[product.id] : { ...product, quantity: 0 }}
