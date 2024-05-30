@@ -34,10 +34,9 @@ function parseUsdtPayload(tx: Transaction): UsdtTransaction | undefined {
     }
 
     const comment = payloadSlice.loadStringTail();
-    // TOdo
-    // if (!isUUID(comment)) {
-    //   return;
-    // }
+    if (!isUUID(comment)) {
+      return;
+    }
 
     return {
       status: tx.description.computePhase.success ? 'succeeded' : 'failed',
