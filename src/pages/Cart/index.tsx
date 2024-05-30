@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { JettonMaster } from '@ton/ton';
 import { toNano } from '@ton/core';
@@ -13,7 +13,9 @@ import { calculateUsdtAmount } from '@/helpers/common-helpers.ts';
 import { USDT_MASTER_WALLET } from '@/constants/common-constants.ts';
 import { useGenerateId } from '@/hooks/useGenerateId.ts';
 import Header from '@/components/Header';
+import { EmptyCart } from '@/constants/icons.tsx';
 import styles from './styles.module.scss';
+
 
 const Cart = () => {
   const { cart, setCart, addProduct, removeProduct, tonClient } = useApp();
@@ -22,13 +24,14 @@ const Cart = () => {
   const orderId = useGenerateId();
   const { sender, walletAddress } = useTonConnect();
 
+  const isEmptyCart = !Object.keys(cart).length;
+
   useBackButton();
   const totalCost = (Math.round(Object.values(cart).reduce((sum, item) => {
     return sum + item.price * item.quantity;
   }, 0) * 100) / 100);
 
   const handleCompletePayment = useCallback(async () => {
-    console.log(tonClient);
     try {
       if (!tonClient || !walletAddress) return;
 
@@ -37,14 +40,13 @@ const Cart = () => {
 
       const jettonWallet = tonClient.open(JettonWallet.createFromAddress(usersUsdtAddress));
 
-      const res = await jettonWallet.sendTransfer(sender, {
+      await jettonWallet.sendTransfer(sender, {
         fwdAmount: 1n,
         comment: orderId,
         jettonAmount: calculateUsdtAmount(totalCost * 100),
         toAddress: walletAddress, // WARNING: transaction currently comes back to user wallet
         value: toNano('0.047'), // will be enough?
       });
-      console.log(res);
       navigate('/transaction-success');
       setCart({});
       console.log(`See transaction at https://testnet.tonviewer.com/${usersUsdtAddress.toString()}`);
@@ -58,28 +60,32 @@ const Cart = () => {
   }, [open]);
 
   useMainButton(walletAddress
-    ? { text: 'Complete payment', onClick: handleCompletePayment }
+    ? (isEmptyCart ? { text: 'Go to shop', onClick: () => navigate('/') }
+      : { text: 'Complete payment', onClick: handleCompletePayment })
     : { text: 'Connect wallet', onClick: handleConnectWallet });
-
-  useEffect(() => {
-    if (!Object.keys(cart).length) {
-      navigate('/');
-    }
-  }, [cart, navigate]);
 
 
   return (
     <div className={styles.wrapper}>
       <Header />
-      {Object.values(cart).map(product => (
-        <CartItem
-          product={cart[product.id]}
-          key={product.id}
-          onAddProduct={addProduct}
-          onRemoveProduct={removeProduct}
-        />
-      ))}
-      <div>Total: ${totalCost.toFixed(2)}</div>
+      {isEmptyCart
+        ? (<div className={styles.isEmpty}>
+          <EmptyCart />
+          <h4>Cart is empty</h4>
+        </div>)
+        : (<>
+          {Object.values(cart).map(product => (
+            <CartItem
+              product={cart[product.id]}
+              key={product.id}
+              onAddProduct={addProduct}
+              onRemoveProduct={removeProduct}
+            />
+          ))}
+          <div>Total: ${totalCost.toFixed(2)}</div>
+        </>)}
+
+
     </div>
   );
 };

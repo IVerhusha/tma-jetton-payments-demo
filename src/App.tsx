@@ -1,4 +1,4 @@
-import { FC, useEffect, useLayoutEffect, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { Navigate, Route, Router, Routes } from 'react-router-dom';
 import { initNavigator, useMiniApp, useViewport } from '@tma.js/sdk-react';
 import { useIntegration } from '@tma.js/react-router-integration';
@@ -29,17 +29,17 @@ function App() {
   const navigator = useMemo(() => initNavigator('app-navigation-state'), []);
   const [location, reactNavigator] = useIntegration(navigator);
 
-  useLayoutEffect(() => {
-    miniApp.ready();
-    miniApp.setBgColor('#161C24');
-    miniApp.setHeaderColor('#161C24');
-    viewport?.expand();
-  }, [miniApp, viewport]);
-
   useEffect(() => {
     navigator.attach();
     return () => navigator.detach();
   }, [navigator]);
+
+  useEffect(() => {
+    miniApp.ready();
+    miniApp.setBgColor('#161C24');
+    miniApp.setHeaderColor('#161C24');
+    viewport?.expand();
+  }, []);
 
   const manifestUrl = useMemo(() => {
     return new URL('tonconnect-manifest.json', window.location.href).toString();
