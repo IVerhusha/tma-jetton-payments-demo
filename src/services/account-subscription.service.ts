@@ -6,6 +6,7 @@ export class AccountSubscriptionService {
     readonly client: TonClient,
     readonly accountAddress: Address,
     readonly onTransactions: (txs: Transaction[]) => Promise<void> | void,
+    private startTime = 0,
   ) {
   }
 
@@ -13,12 +14,13 @@ export class AccountSubscriptionService {
   private lastTransactionHash?: string;
 
   async getTransactionsBatch() {
-    const transactions = await retry(() => this.client.getTransactions(this.accountAddress, {
+    let transactions = await retry(() => this.client.getTransactions(this.accountAddress, {
       lt: this.lastIndexedLt,
       limit: 100,
       hash: this.lastTransactionHash,
       archival: true,
     }), { retries: 10, delay: 1000 });
+    transactions = transactions.filter(tx => tx.now > this.startTime);
 
     if (transactions.length === 0) {
       return { hasMore: false, transactions };
@@ -32,6 +34,11 @@ export class AccountSubscriptionService {
   }
 
   async subscribeToTransactionUpdate(): Promise<void> {
+    this.lastTransactionHash = undefined;
+    this.lastIndexedLt = undefined;
+
+    let iterationStartTime: number = this.startTime;
+
     let hasMore = true;
 
     while (hasMore) {
@@ -39,9 +46,12 @@ export class AccountSubscriptionService {
 
       hasMore = res.hasMore;
       if (res.transactions.length > 0) {
+        iterationStartTime = Math.max(res.transactions[0].now, iterationStartTime);
         await this.onTransactions(res.transactions);
       }
     }
+
+    this.startTime = iterationStartTime;
   }
 
   start(): number {
@@ -53,7 +63,6 @@ export class AccountSubscriptionService {
       await this.subscribeToTransactionUpdate();
 
       isProcessing = false;
-
     };
 
     const intervalId = setInterval(tick, 10 * 1000);
