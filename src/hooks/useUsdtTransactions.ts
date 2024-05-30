@@ -53,6 +53,9 @@ function parseUsdtPayload(tx: Transaction): UsdtTransaction | undefined {
   }
 }
 
+// TODO: ??? fix?
+const appStartTime = Date.now() / 1000;
+
 export function useUsdtTransactions(client?: TonClient, address?: Address): UsdtTransaction[] {
   const [transactions, setTransactions] = useState<UsdtTransaction[]>([]);
 
@@ -63,12 +66,11 @@ export function useUsdtTransactions(client?: TonClient, address?: Address): Usdt
 
     const accountSubscriptionService = new AccountSubscriptionService(client, address, (txs) => {
       const newUsdtTransactions = txs.map(parseUsdtPayload).filter((tx): tx is UsdtTransaction => tx !== undefined);
-      setTransactions([
-        ...transactions,
+      setTransactions((oldTxs) => [
         ...newUsdtTransactions,
+        ...oldTxs,
       ]);
-    });
-
+    }, appStartTime);
 
     const intervalId = accountSubscriptionService.start();
     return () => {
