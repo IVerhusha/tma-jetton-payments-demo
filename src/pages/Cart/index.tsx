@@ -10,7 +10,7 @@ import { useBackButton } from '@/hooks/useBackButton.ts';
 import { useTonConnect } from '@/hooks/useTonConnect.ts';
 import { JettonWallet } from '@/wrappers/JettonWallet.ts';
 import { calculateUsdtAmount } from '@/helpers/common-helpers.ts';
-import { USDT_INVOICE_WALLET, USDT_MASTER_ADDRESS } from '@/constants/common-constants.ts';
+import { INVOICE_WALLET_ADDRESS, USDT_MASTER_ADDRESS } from '@/constants/common-constants.ts';
 import { useGenerateId } from '@/hooks/useGenerateId.ts';
 import Header from '@/components/Header';
 import styles from './styles.module.scss';
@@ -41,7 +41,7 @@ const Cart = () => {
         fwdAmount: 1n,
         comment: orderId,
         jettonAmount: calculateUsdtAmount(totalCost * 100),
-        toAddress: USDT_INVOICE_WALLET,
+        toAddress: INVOICE_WALLET_ADDRESS,
         value: toNano('0.038'), // will be enough?
       });
       console.log(res);
