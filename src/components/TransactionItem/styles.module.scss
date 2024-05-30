@@ -17,6 +17,13 @@
     gap: 12px;
   }
 
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
   .link {
     @include button-l($primary300);
     text-align: center;
