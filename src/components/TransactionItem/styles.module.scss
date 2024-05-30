@@ -41,6 +41,18 @@
     }
   }
 
+  .label {
+    @include label($info500);
+    padding: 2px 4px;
+    background-color: $info50008;
+    border-radius: 4px;
+
+    &.failed {
+      color: $error500;
+      background-color: $error50008;
+    }
+  }
+
 }
 
 

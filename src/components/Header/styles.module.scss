@@ -7,6 +7,13 @@
   width: 100%;
   padding: 0 12px;
 
+  .label {
+    @include label($info500);
+    padding: 2px 4px;
+    background-color: $info50008;
+    border-radius: 4px;
+  }
+
   .controls {
     display: flex;
     gap: 12px;

@@ -16,4 +16,18 @@
     justify-content: center;
     gap: 16px;
   }
+
+  .block {
+    margin-bottom: 16px;
+
+    h4 {
+      padding-bottom: 12px;
+    }
+  }
+
+  .transactions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
 }

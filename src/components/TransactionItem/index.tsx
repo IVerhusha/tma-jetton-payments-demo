@@ -1,9 +1,10 @@
+import clsx from 'clsx';
 import { UsdtTransaction } from '@/types/usdt-transaction.ts';
 import { calculateUsdFromUsdt } from '@/helpers/common-helpers.ts';
-import styles from './styles.module.scss';
 import { useUtils } from '@tma.js/sdk-react';
 import { useTonConnect } from '@/hooks/useTonConnect.ts';
 import { CHAIN } from '@tonconnect/ui-react';
+import styles from './styles.module.scss';
 
 
 type Props = {
@@ -22,16 +23,11 @@ const TransactionItem = ({ tx }: Props) => {
         >
           See transaction
         </button>
-        <p>Gas used {tx.gasUsed.toString()}</p>
-        <p>UsdtAmount {calculateUsdFromUsdt(tx.usdtAmount).toString()}</p>
-        <p>OrderId {tx.orderId}</p>
-        {/*<p>ToAddress {tx.toAddress?.toString() ?? USDT_INVOICE_WALLET.toString()}</p>*/}
-        {/*<p>FromAddress {tx.fromAddress.toString()}</p>*/}
-        <p>TS {tx.timestamp}</p>
-        <p>Status {tx.status}</p>
+        <p>Price: ${calculateUsdFromUsdt(tx.usdtAmount).toString()}</p>
+        <p>Status: <span className={clsx(styles.label, {[styles.failed]: tx.status === 'failed'})}>{tx.status}</span></p>
       </div>
     </div>
-  );
+);
 };
 
 export default TransactionItem;

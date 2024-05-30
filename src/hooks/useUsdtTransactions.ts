@@ -1,8 +1,10 @@
-import { Address, TonClient, Transaction } from "@ton/ton";
-import { useEffect, useState } from "react";
-import { isUUID } from "@/helpers/common-helpers.ts";
-import { UsdtTransaction } from "@/types/usdt-transaction.ts";
-import { AccountSubscriptionService } from "@/services/account-subscription.service.ts";
+import { JettonMaster, Transaction } from '@ton/ton';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { isUUID } from '@/helpers/common-helpers.ts';
+import { UsdtTransaction } from '@/types/usdt-transaction.ts';
+import { AccountSubscriptionService } from '@/services/account-subscription.service.ts';
+import { INVOICE_WALLET_ADDRESS, USDT_MASTER_ADDRESS } from '@/constants/common-constants.ts';
+import { useApp } from '@/context/app-context.tsx';
 
 function parseUsdtPayload(tx: Transaction): UsdtTransaction | undefined {
 
@@ -17,11 +19,11 @@ function parseUsdtPayload(tx: Transaction): UsdtTransaction | undefined {
       return;
     }
 
-    const queryId = slice.loadUint(64);
+    slice.loadUint(64);
     const jettonAmount = slice.loadCoins();
     const fromAddress = slice.loadAddress();
-    const responseAddress = slice.loadAddress();
-    const forwardTonAmount = slice.loadCoins();
+    slice.loadAddress();
+    slice.loadCoins();
     const forwardPayload = slice.loadMaybeRef();
     if (!forwardPayload) {
       return;
@@ -54,30 +56,37 @@ function parseUsdtPayload(tx: Transaction): UsdtTransaction | undefined {
   }
 }
 
-// TODO: ??? fix?
-const appStartTime = 0;
 
-export function useUsdtTransactions(client?: TonClient, address?: Address): UsdtTransaction[] {
+export const useUsdtTransactions = (): UsdtTransaction[] => {
+  const { tonClient } = useApp();
+
   const [transactions, setTransactions] = useState<UsdtTransaction[]>([]);
+  const intervalId = useRef<number | null>(null)
 
-  useEffect(() => {
-    if (!client || !address) {
-      return;
-    }
-
-    const accountSubscriptionService = new AccountSubscriptionService(client, address, (txs) => {
+  const launchSubscriptionService = useCallback(async () => {
+    if (!tonClient) return
+    const jettonMaster = tonClient.open(JettonMaster.create(USDT_MASTER_ADDRESS));
+    const address = await jettonMaster.getWalletAddress(INVOICE_WALLET_ADDRESS)
+    const accountSubscriptionService = new AccountSubscriptionService(tonClient, address, (txs) => {
       const newUsdtTransactions = txs.map(parseUsdtPayload).filter((tx): tx is UsdtTransaction => tx !== undefined);
       setTransactions((oldTxs) => [
         ...newUsdtTransactions,
         ...oldTxs,
       ]);
-    }, appStartTime);
+    });
 
-    const intervalId = accountSubscriptionService.start();
+    intervalId.current = accountSubscriptionService.start();
+  }, [tonClient])
+
+  useEffect(() => {
+    launchSubscriptionService().catch(null);
+
     return () => {
-      clearInterval(intervalId);
+      if (intervalId.current !== null) {
+        clearInterval(intervalId.current);
+      }
     };
-  }, [client, address]);
+  }, [launchSubscriptionService]); // double render in dev mode
 
   return transactions;
 }
