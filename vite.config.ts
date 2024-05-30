@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: 'tma-jetton-payments-demo',
+  base: '/',
   plugins: [react(), tsconfigPaths()],
   publicDir: './public',
 });

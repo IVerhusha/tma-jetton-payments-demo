@@ -24,7 +24,7 @@ export const useMainButton = ({ text, onClick, isEnabled = true }: Props) => {
     return () => {
       mainButton.off('click', onClick);
     };
-  }, [isEnabled, text]);
+  }, [isEnabled, text, onClick]);
 
   return mainButton;
 };

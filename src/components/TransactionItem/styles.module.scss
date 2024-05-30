@@ -1,0 +1,46 @@
+@import 'src/assets/styles/helpers/all';
+
+.card {
+  background-color: $neutral800;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 332px;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .link {
+    @include button-l($primary300);
+    text-align: center;
+    transition: 0.3s;
+    display: flex;
+
+    &:active:not(:disabled) {
+      opacity: 0.8;
+    }
+
+    &:focus-visible {
+      box-shadow: $focusBorderShadow;
+    }
+
+    svg {
+      height: 16px;
+      width: 16px;
+
+      path {
+        stroke: $primary300;
+      }
+    }
+  }
+
+}
+
+

@@ -2,10 +2,10 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBackButton } from '@/hooks/useBackButton';
 import { useMainButton } from '@/hooks/useMainButton';
-import { SuccessIcon } from '@/constants/icons.tsx';
+import { InfoIcon } from '@/constants/icons.tsx';
 import styles from './styles.module.scss';
 
-const TransactionSuccess = () => {
+const TransactionSent = () => {
   const navigate = useNavigate();
 
   useBackButton();
@@ -19,11 +19,11 @@ const TransactionSuccess = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.message}>
-        <SuccessIcon />
-        <h2>Transaction successful!</h2>
+        <InfoIcon />
+        <h2>Transaction sent</h2>
       </div>
     </div>
   );
 };
 
-export default TransactionSuccess;
+export default TransactionSent;

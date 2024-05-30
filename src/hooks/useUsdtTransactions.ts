@@ -5,6 +5,7 @@ import { UsdtTransaction } from "@/types/usdt-transaction.ts";
 import { AccountSubscriptionService } from "@/services/account-subscription.service.ts";
 
 function parseUsdtPayload(tx: Transaction): UsdtTransaction | undefined {
+
   try {
     if (tx.inMessage?.info.type !== 'internal' || tx.description.type !== 'generic' || tx.description.computePhase?.type !== 'vm') {
       return;
@@ -54,7 +55,7 @@ function parseUsdtPayload(tx: Transaction): UsdtTransaction | undefined {
 }
 
 // TODO: ??? fix?
-const appStartTime = Date.now() / 1000;
+const appStartTime = 0;
 
 export function useUsdtTransactions(client?: TonClient, address?: Address): UsdtTransaction[] {
   const [transactions, setTransactions] = useState<UsdtTransaction[]>([]);

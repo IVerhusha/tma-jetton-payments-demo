@@ -47,7 +47,7 @@ const Cart = () => {
         toAddress: INVOICE_WALLET_ADDRESS,
         value: toNano('0.038'), // will be enough?
       });
-      navigate('/transaction-success');
+      navigate('/transaction-sent');
       setCart({});
       console.log(`See transaction at https://testnet.tonviewer.com/${usersUsdtAddress.toString()}`);
     } catch (error) {
@@ -84,8 +84,6 @@ const Cart = () => {
           ))}
           <div>Total: ${totalCost.toFixed(2)}</div>
         </>)}
-
-
     </div>
   );
 };
