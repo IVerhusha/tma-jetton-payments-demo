@@ -1,30 +1,156 @@
-# React + TypeScript + Vite
+# Demo dApp with @tonconnect/ui-react
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This Demo dApp showcases the integration with @tonconnect/ui-react. Experience it live at [Demo dApp with Wallet](https://ton-connect.github.io/demo-dapp-with-wallet/).
 
-Currently, two official plugins are available:
+## Learn More About Ton Connect
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+To understand more about Ton Connect and how it enables blockchain functionalities in your applications, refer to the following resources:
+- Ton Connect Documentation: [https://docs.ton.org/develop/dapps/ton-connect/](https://docs.ton.org/develop/dapps/ton-connect/)
+- Ton Connect SDK and UI Library on GitHub: [https://github.com/ton-connect/sdk/tree/main/packages/ui](https://github.com/ton-connect/sdk/tree/main/packages/ui)
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Project Dependencies
 
-- Configure the top-level `parserOptions` property like this:
+Install the necessary packages for this project:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```bash
+npm install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### ngrok or localtunnel (Optional)
+
+Choose either ngrok or localtunnel to expose your local server to the internet for testing in Telegram.
+
+#### ngrok Installation
+
+```bash
+npm install -g ngrok
+```
+
+ngrok Documentation: [https://ngrok.com/docs](https://ngrok.com/docs)
+
+#### localtunnel Installation
+
+```bash
+npm install -g localtunnel
+```
+
+LocalTunnel Documentation: [https://localtunnel.github.io/www/](https://localtunnel.github.io/www/)
+
+### Creating Telegram Mini Apps (Optional)
+
+1. Open [@BotFather](https://t.me/BotFather) in Telegram.
+2. Send the `/newbot` command to create a new bot.
+3. Follow the prompts to set up your bot, providing all necessary information.
+4. After the bot is created, send the `/newapp` command to BotFather.
+5. Select your bot from the list.
+6. Provide all the required information for your Mini App.
+
+
+### Returning to the Application (Optional)
+
+To return to the application after interacting with the wallet, you must specify a `twaReturnUrl` in `src/App.tsx`.
+
+Here's a concise guide:
+
+- **twaReturnUrl**: This is the return URL used by Telegram Web Apps. Set it to redirect users back to your application after wallet interaction. Example: `'https://t.me/WebAppWalletBot/myapp'`.
+
+Here is a sample configuration for specifying a return URL:
+
+```jsx
+<TonConnectUIProvider
+    manifestUrl="https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json"
+    uiPreferences={{ theme: THEME.DARK }}
+    actionsConfiguration={{
+        twaReturnUrl: 'https://t.me/WebAppWalletBot/myapp'
+    }}
+></TonConnectUIProvider>
+```
+
+### Adding a Custom Wallet (Optional)
+
+To integrate a custom wallet into your application, adjust the `walletsListConfiguration` in `src/App.tsx`. Include your wallet details in `includeWallets` and specify `universalLink`.
+
+Here's a concise guide:
+
+- **universalLink**: This URL is used to open the wallet directly from a web link. It should link to your wallet's bot or app. Example: `'https://t.me/wallet/start'`.
+
+Here is a sample configuration for adding a custom wallet:
+
+```jsx
+<TonConnectUIProvider
+    manifestUrl="https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json"
+    uiPreferences={{ theme: THEME.DARK }}
+    walletsListConfiguration={{
+        includeWallets: [
+            {
+                appName: "telegram-wallet",
+                name: "Wallet",
+                imageUrl: "https://wallet.tg/images/logo-288.png",
+                aboutUrl: "https://wallet.tg/",
+                universalLink: "https://t.me/wallet/start",
+                bridgeUrl: "https://bridge.tonapi.io/bridge",
+                platforms: ["ios", "android", "macos", "windows", "linux"]
+            }
+        ]
+    }}
+    actionsConfiguration={{
+        twaReturnUrl: 'https://t.me/WebAppWalletBot/myapp'
+    }}
+></TonConnectUIProvider>
+```
+
+## Running the Application
+
+### Setting Transaction Variables
+
+To configure transaction variables, set the following environment variables:
+
+1. `USDT_MASTER_ADDRESS`: The master address of the USDT. For the testnet, use USDTTT (a custom-deployed token).
+For the mainnet, use `EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs`.
+2. `INVOICE_WALLET_ADDRESS`: The address of the wallet where USDT will be received upon payment. 
+Important: This should be the address of the wallet, not the USDT jetton wallet. 
+The address of the USDT jetton wallet will be calculated upon sending.
+
+### Starting the Application
+
+To start the application, run:
+
+```bash
+npm run dev
+```
+
+The application will be accessible at [http://localhost:5173](http://localhost:5173).
+
+### Exposing Your Local Server (Optional)
+
+#### Using ngrok
+
+```bash
+ngrok http 5173
+```
+
+#### Using localtunnel
+
+```bash
+lt --port 5173
+```
+
+After setting up ngrok or localtunnel, update your Telegram bot's configuration with the provided URL to ensure the bot points to your local development environment.
+
+### Updating Telegram Bot Configuration (Optional)
+
+#### Update the Menu Button URL in Telegram Bot
+
+1. Open [@BotFather](https://t.me/BotFather) in Telegram.
+2. Send the `/mybots` command and select your bot.
+3. Choose "Bot Settings" then "Menu Button" and finally "Configure menu button".
+4. Enter the ngrok or localtunnel URL as the new destination.
+
+#### Update Mini Apps URL in Telegram
+
+1. Open [@BotFather](https://t.me/BotFather) in Telegram.
+2. Send the `/myapps` command and select your Mini App.
+3. Choose "Edit Web App URL".
+4. Enter the ngrok or localtunnel URL as the new destination.
