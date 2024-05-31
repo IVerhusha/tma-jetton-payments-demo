@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { JettonMaster } from '@ton/ton';
-import { toNano } from '@ton/core';
 import { useMainButton } from '@/hooks/useMainButton';
 import { useTonConnectModal } from '@tonconnect/ui-react';
 import { useApp } from '@/context/app-context.tsx';
@@ -15,6 +14,7 @@ import { useGenerateId } from '@/hooks/useGenerateId.ts';
 import Header from '@/components/Header';
 import { EmptyCart } from '@/constants/icons.tsx';
 import styles from './styles.module.scss';
+import { JETTON_TRANSFER_GAS_FEES } from '@/constants/fees.constants.ts';
 
 
 const Cart = () => {
@@ -45,7 +45,7 @@ const Cart = () => {
         comment: orderId,
         jettonAmount: calculateUsdtAmount(totalCost * 100),
         toAddress: INVOICE_WALLET_ADDRESS,
-        value: toNano('0.038'), // will be enough?
+        value: JETTON_TRANSFER_GAS_FEES,
       });
       navigate('/transaction-sent');
       setCart({});
@@ -67,10 +67,10 @@ const Cart = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Header />
+      <Header/>
       {isEmptyCart
         ? (<div className={styles.isEmpty}>
-          <EmptyCart />
+          <EmptyCart/>
           <h4>Cart is empty</h4>
         </div>)
         : (<>
