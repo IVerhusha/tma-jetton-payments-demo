@@ -46,7 +46,6 @@ function parseUsdtPayload(tx: Transaction): UsdtTransaction | undefined {
       hash: tx.hash().toString('hex'),
       usdtAmount: jettonAmount,
       gasUsed: tx.totalFees.coins,
-      toAddress: undefined,
       orderId: comment,
       timestamp: tx.inMessage.info.createdAt,
       fromAddress,
@@ -61,12 +60,12 @@ export const useUsdtTransactions = (): UsdtTransaction[] => {
   const { tonClient } = useApp();
 
   const [transactions, setTransactions] = useState<UsdtTransaction[]>([]);
-  const intervalId = useRef<number | null>(null)
+  const intervalId = useRef<number | null>(null);
 
   const launchSubscriptionService = useCallback(async () => {
-    if (!tonClient) return
+    if (!tonClient) return;
     const jettonMaster = tonClient.open(JettonMaster.create(USDT_MASTER_ADDRESS));
-    const address = await jettonMaster.getWalletAddress(INVOICE_WALLET_ADDRESS)
+    const address = await jettonMaster.getWalletAddress(INVOICE_WALLET_ADDRESS);
     const accountSubscriptionService = new AccountSubscriptionService(tonClient, address, (txs) => {
       const newUsdtTransactions = txs.map(parseUsdtPayload).filter((tx): tx is UsdtTransaction => tx !== undefined);
       setTransactions((oldTxs) => [
@@ -76,7 +75,7 @@ export const useUsdtTransactions = (): UsdtTransaction[] => {
     });
 
     intervalId.current = accountSubscriptionService.start();
-  }, [tonClient])
+  }, [tonClient]);
 
   useEffect(() => {
     launchSubscriptionService().catch(null);
@@ -89,4 +88,4 @@ export const useUsdtTransactions = (): UsdtTransaction[] => {
   }, [launchSubscriptionService]); // double render in dev mode
 
   return transactions;
-}
+};
