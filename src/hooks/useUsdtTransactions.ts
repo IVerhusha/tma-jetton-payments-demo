@@ -61,12 +61,14 @@ export const useUsdtTransactions = (): UsdtTransaction[] => {
 
   const [transactions, setTransactions] = useState<UsdtTransaction[]>([]);
   const intervalId = useRef<number | null>(null);
+  const accountSubscriptionService = useRef<AccountSubscriptionService | null>(null);
+  const effectRan = useRef(false); // double render in dev mode
 
   const launchSubscriptionService = useCallback(async () => {
     if (!tonClient) return;
     const jettonMaster = tonClient.open(JettonMaster.create(USDT_MASTER_ADDRESS));
     const address = await jettonMaster.getWalletAddress(INVOICE_WALLET_ADDRESS);
-    const accountSubscriptionService = new AccountSubscriptionService(tonClient, address, (txs) => {
+    accountSubscriptionService.current = new AccountSubscriptionService(tonClient, address, (txs) => {
       const newUsdtTransactions = txs.map(parseUsdtPayload).filter((tx): tx is UsdtTransaction => tx !== undefined);
       setTransactions((oldTxs) => [
         ...newUsdtTransactions,
@@ -74,18 +76,20 @@ export const useUsdtTransactions = (): UsdtTransaction[] => {
       ]);
     });
 
-    intervalId.current = accountSubscriptionService.start();
+    intervalId.current = accountSubscriptionService.current.start();
   }, [tonClient]);
 
   useEffect(() => {
+    if (effectRan.current) return;
     launchSubscriptionService().catch(null);
 
     return () => {
+      effectRan.current = true;
       if (intervalId.current !== null) {
         clearInterval(intervalId.current);
       }
     };
-  }, [launchSubscriptionService]); // double render in dev mode
+  }, [launchSubscriptionService]);
 
   return transactions;
 };
