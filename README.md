@@ -1,28 +1,36 @@
-# Demo dApp with @tonconnect/ui-react
+# TMA USDt payments Demo
 
-This Demo dApp showcases the integration with @tonconnect/ui-react. Experience it live at [Demo dApp with Wallet](https://ton-connect.github.io/demo-dapp-with-wallet/).
+This Demo TMA showcases the integration with @tonconnect/ui-react and simple processing of USD₮ invoice by [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) in comment.
 
-## Learn More About Ton Connect
+<p align="center">
+  <img src="static/demo-pic-2.png" alt="Demo Picture 2" width="240"/>
+  <img src="static/demo-pic-1.png" alt="Demo Picture 1" width="240"/>
+</p>
 
-To understand more about Ton Connect and how it enables blockchain functionalities in your applications, refer to the following resources:
-- Ton Connect Documentation: [https://docs.ton.org/develop/dapps/ton-connect/](https://docs.ton.org/develop/dapps/ton-connect/)
-- Ton Connect SDK and UI Library on GitHub: [https://github.com/ton-connect/sdk/tree/main/packages/ui](https://github.com/ton-connect/sdk/tree/main/packages/ui)
+<div style="display: flex; justify-content: center; align-items: center;">
+  <img src="static/TMA Demo QR.png" alt="TMA Demo QR" width="100" style="margin-right: 20px;"/>
+  <div>
+    Experience it live at <a href="https://t.me/tma_jetton_processing_bot/tma_jetton_processing">TMA live demo [TESTNET]</a>
+  </div>
+</div>
+
+
+
+
 
 ## Installation
 
-### Project Dependencies
-
-Install the necessary packages for this project:
+### 1. Install the necessary packages for this project:
 
 ```bash
 npm install
 ```
 
-### ngrok or localtunnel (Optional)
+### 2. ngrok or localtunnel (Optional)
 
-Choose either ngrok or localtunnel to expose your local server to the internet for testing in Telegram.
+Choose either ngrok or `localtunnel` to expose your local server to the internet for testing in Telegram.
 
-#### ngrok Installation
+#### a. ngrok Installation
 
 ```bash
 npm install -g ngrok
@@ -30,7 +38,7 @@ npm install -g ngrok
 
 ngrok Documentation: [https://ngrok.com/docs](https://ngrok.com/docs)
 
-#### localtunnel Installation
+#### b. localtunnel Installation
 
 ```bash
 npm install -g localtunnel
@@ -38,7 +46,7 @@ npm install -g localtunnel
 
 LocalTunnel Documentation: [https://localtunnel.github.io/www/](https://localtunnel.github.io/www/)
 
-### Creating Telegram Mini Apps (Optional)
+### 3. Creating Telegram Mini Apps (Optional)
 
 1. Open [@BotFather](https://t.me/BotFather) in Telegram.
 2. Send the `/newbot` command to create a new bot.
@@ -67,6 +75,72 @@ Here is a sample configuration for specifying a return URL:
     }}
 ></TonConnectUIProvider>
 ```
+
+## Running the TMA
+
+### 1. Setting Transaction Variables[optional]
+
+To configure transaction variables in `src/constants/common-constants.ts`, set the following environment variables:
+
+1. `USDT_MASTER_ADDRESS`: The master address of the USDT.
+- **Testnet**,  USDTTT token master: `kQC2sWxkwfqwsb7O3z-lRInJQO1f11qDDd8jD5wrcg27ss5h`. [Default]
+- **Mainnet**, USD₮ `EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs`.
+2. `INVOICE_WALLET_ADDRESS`: The address of the wallet where USDT will be received upon payment.
+Important: This should be the address of the usual TON wallet, not the USDT jetton wallet. 
+The address of the USDT jetton wallet will be calculated upon sending.
+
+### 2. Starting the Application
+
+To start the application, run:
+
+```bash
+npm run dev
+```
+
+The application will be accessible at [http://localhost:5173](http://localhost:5173).
+
+### 3. Exposing Your Local Server (Optional)
+
+#### a. Using `ngrok`
+
+```bash
+ngrok http 5173
+```
+
+#### b. Using `localtunnel`
+
+```bash
+lt --port 5173
+```
+
+After setting up ngrok or localtunnel, update your Telegram bot's configuration with the provided URL to ensure the bot points to your local development environment.
+
+### 4. Updating Telegram Bot Configuration (Optional)
+
+#### a. Update the Menu Button URL in Telegram Bot
+
+1. Open [@BotFather](https://t.me/BotFather) in Telegram.
+2. Send the `/mybots` command and select your bot.
+3. Choose "Bot Settings" then "Menu Button" and finally "Configure menu button".
+4. Enter the ngrok or localtunnel URL as the new destination.
+
+#### b. Update Mini Apps URL in Telegram
+
+1. Open [@BotFather](https://t.me/BotFather) in Telegram.
+2. Send the `/myapps` command and select your Mini App.
+3. Choose "Edit Web App URL".
+4. Enter the ngrok or localtunnel URL as the new destination.
+
+
+## Learn More About Ton Connect
+
+To understand more about Ton Connect and how it enables blockchain functionalities in your applications, refer to the following resources:
+- Ton Connect Documentation: [https://docs.ton.org/develop/dapps/ton-connect/](https://docs.ton.org/develop/dapps/ton-connect/)
+- Ton Connect SDK and UI Library on GitHub: [https://github.com/ton-connect/sdk/tree/main/packages/ui](https://github.com/ton-connect/sdk/tree/main/packages/ui)
+
+
+
+## Advanced
 
 ### Adding a Custom Wallet (Optional)
 
@@ -101,56 +175,3 @@ Here is a sample configuration for adding a custom wallet:
 ></TonConnectUIProvider>
 ```
 
-## Running the Application
-
-### Setting Transaction Variables
-
-To configure transaction variables, set the following environment variables:
-
-1. `USDT_MASTER_ADDRESS`: The master address of the USDT. For the testnet, use USDTTT (a custom-deployed token).
-For the mainnet, use `EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs`.
-2. `INVOICE_WALLET_ADDRESS`: The address of the wallet where USDT will be received upon payment. 
-Important: This should be the address of the wallet, not the USDT jetton wallet. 
-The address of the USDT jetton wallet will be calculated upon sending.
-
-### Starting the Application
-
-To start the application, run:
-
-```bash
-npm run dev
-```
-
-The application will be accessible at [http://localhost:5173](http://localhost:5173).
-
-### Exposing Your Local Server (Optional)
-
-#### Using ngrok
-
-```bash
-ngrok http 5173
-```
-
-#### Using localtunnel
-
-```bash
-lt --port 5173
-```
-
-After setting up ngrok or localtunnel, update your Telegram bot's configuration with the provided URL to ensure the bot points to your local development environment.
-
-### Updating Telegram Bot Configuration (Optional)
-
-#### Update the Menu Button URL in Telegram Bot
-
-1. Open [@BotFather](https://t.me/BotFather) in Telegram.
-2. Send the `/mybots` command and select your bot.
-3. Choose "Bot Settings" then "Menu Button" and finally "Configure menu button".
-4. Enter the ngrok or localtunnel URL as the new destination.
-
-#### Update Mini Apps URL in Telegram
-
-1. Open [@BotFather](https://t.me/BotFather) in Telegram.
-2. Send the `/myapps` command and select your Mini App.
-3. Choose "Edit Web App URL".
-4. Enter the ngrok or localtunnel URL as the new destination.
