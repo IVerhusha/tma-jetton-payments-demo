@@ -1,4 +1,4 @@
-# TMA USDt payments Demo
+# TMA USDt Payments Demo
 
 This Demo TMA showcases the integration with @tonconnect/ui-react and simple processing of USD₮ invoice by [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) in comment.
 
@@ -15,9 +15,6 @@ This Demo TMA showcases the integration with @tonconnect/ui-react and simple pro
 </div>
 
 
-
-
-
 ## Installation
 
 ### 1. Install the necessary packages for this project:
@@ -26,7 +23,7 @@ This Demo TMA showcases the integration with @tonconnect/ui-react and simple pro
 npm install
 ```
 
-### 2. ngrok or localtunnel (Optional)
+### 2. ngrok or localtunnel
 
 Choose either ngrok or `localtunnel` to expose your local server to the internet for testing in Telegram.
 
@@ -46,7 +43,7 @@ npm install -g localtunnel
 
 LocalTunnel Documentation: [https://localtunnel.github.io/www/](https://localtunnel.github.io/www/)
 
-### 3. Creating Telegram Mini Apps (Optional)
+### 3. Creating Telegram Mini Apps
 
 1. Open [@BotFather](https://t.me/BotFather) in Telegram.
 2. Send the `/newbot` command to create a new bot.
@@ -55,30 +52,9 @@ LocalTunnel Documentation: [https://localtunnel.github.io/www/](https://localtun
 5. Select your bot from the list.
 6. Provide all the required information for your Mini App.
 
-
-### Returning to the Application (Optional)
-
-To return to the application after interacting with the wallet, you must specify a `twaReturnUrl` in `src/App.tsx`.
-
-Here's a concise guide:
-
-- **twaReturnUrl**: This is the return URL used by Telegram Web Apps. Set it to redirect users back to your application after wallet interaction. Example: `'https://t.me/WebAppWalletBot/myapp'`.
-
-Here is a sample configuration for specifying a return URL:
-
-```jsx
-<TonConnectUIProvider
-    manifestUrl="https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json"
-    uiPreferences={{ theme: THEME.DARK }}
-    actionsConfiguration={{
-        twaReturnUrl: 'https://t.me/WebAppWalletBot/myapp'
-    }}
-></TonConnectUIProvider>
-```
-
 ## Running the TMA
 
-### 1. Setting Transaction Variables[optional]
+### 1. Setting Transaction Variables
 
 To configure transaction variables in `src/constants/common-constants.ts`, set the following environment variables:
 
@@ -141,6 +117,26 @@ To understand more about Ton Connect and how it enables blockchain functionaliti
 
 
 ## Advanced
+
+### Returning to the Application (Optional)
+
+To return to the application after interacting with the wallet, you must specify a `twaReturnUrl` in `src/App.tsx`.
+
+Here's a concise guide:
+
+- **twaReturnUrl**: This is the return URL used by Telegram Web Apps. Set it to redirect users back to your application after wallet interaction. Example: `'https://t.me/WebAppWalletBot/myapp'`.
+
+Here is a sample configuration for specifying a return URL:
+
+```jsx
+<TonConnectUIProvider
+    manifestUrl="https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json"
+    uiPreferences={{ theme: THEME.DARK }}
+    actionsConfiguration={{
+        twaReturnUrl: 'https://t.me/WebAppWalletBot/myapp'
+    }}
+></TonConnectUIProvider>
+```
 
 ### Adding a Custom Wallet (Optional)
 
