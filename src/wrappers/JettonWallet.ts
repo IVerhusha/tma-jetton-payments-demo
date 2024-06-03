@@ -50,12 +50,17 @@ export class JettonWallet implements Contract {
         .storeStringTail(opts.comment)
         .endCell();
 
-      builder.storeMaybeRef(commentPayload);
+      builder.storeBit(1);
+      builder.storeRef(commentPayload);
     } else {
       if (opts.forwardPayload instanceof Slice) {
+        builder.storeBit(0);
         builder.storeSlice(opts.forwardPayload);
+      } else if (opts.forwardPayload instanceof Cell) {
+        builder.storeBit(1);
+        builder.storeRef(opts.forwardPayload);
       } else {
-        builder.storeMaybeRef(opts.forwardPayload);
+        builder.storeBit(0);
       }
     }
 
