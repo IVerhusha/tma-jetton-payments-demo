@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { JettonMaster } from '@ton/ton';
 import { useMainButton } from '@/hooks/useMainButton';
 import { useTonConnectModal } from '@tonconnect/ui-react';
-import { useApp } from '@/context/app-context.tsx';
+import { useAppState } from '@/context/app-context.tsx';
 import CartItem from '@/components/CartItem';
 import { useBackButton } from '@/hooks/useBackButton.ts';
 import { useTonConnect } from '@/hooks/useTonConnect.ts';
@@ -17,7 +17,7 @@ import { JETTON_TRANSFER_GAS_FEES } from '@/constants/fees.constants.ts';
 import styles from './styles.module.scss';
 
 const Cart = () => {
-  const { cart, clearCart, addProduct, removeProduct } = useApp();
+  const { cart, clearCart, addProduct, removeProduct } = useAppState();
   const navigate = useNavigate();
   const { open } = useTonConnectModal();
   const orderId = useGenerateId();

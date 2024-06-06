@@ -1,81 +1,93 @@
-import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useReducer } from 'react';
 import { TProduct } from '@/types/common-types.ts';
 
 export type Product = TProduct;
 
-export type Cart = Record<number, Product>;
+export type Cart = Record<number, Product & { quantity: number }>;
 
-type TAppProvider = {
-  children: ReactNode
+type TAppStateProvider = {
+  children: ReactNode;
 };
 
-type AppContextProviderValue = {
+type AppStateContextProviderValue = {
   cart: Cart;
   addProduct: (product: Product) => void;
   removeProduct: (product: Product) => void;
   clearCart: () => void;
-}
+};
 
-const initialContext = {
+const initialContext: AppStateContextProviderValue = {
   cart: {},
-  addProduct: () => {
-  },
-  removeProduct: () => {
-  },
-  clearCart: () => {
+  addProduct: () => {},
+  removeProduct: () => {},
+  clearCart: () => {},
+};
+
+const AppStateContext = createContext<AppStateContextProviderValue>(initialContext);
+
+type CartAction =
+  | { type: 'ADD_PRODUCT'; product: Product }
+  | { type: 'REMOVE_PRODUCT'; product: Product }
+  | { type: 'CLEAR_CART' };
+
+const cartReducer = (state: Cart, action: CartAction): Cart => {
+  switch (action.type) {
+    case 'ADD_PRODUCT': {
+      const product = action.product;
+      if (!(product.id in state)) {
+        return { ...state, [product.id]: { ...product, quantity: 1 } };
+      }
+
+      const previousQuantity = state[product.id].quantity;
+
+      return {
+        ...state,
+        [product.id]: { ...product, quantity: previousQuantity + 1 }
+      };
+    }
+    case 'REMOVE_PRODUCT': {
+      const product = action.product;
+      if (!(product.id in state)) {
+        return state;
+      }
+
+      const newQuantity = state[product.id].quantity - 1;
+
+      if (newQuantity > 0) {
+        return { ...state, [product.id]: { ...product, quantity: newQuantity } };
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { [product.id]: _, ...rest } = state;
+      return rest;
+    }
+    case 'CLEAR_CART':
+      return {};
+    default:
+      return state;
   }
 };
 
-const AppContext = createContext<AppContextProviderValue>(initialContext);
-
-export const AppProvider = ({ children }: TAppProvider) => {
-  const [cart, setCart] = useState<Cart>({});
+export const AppStateProvider = ({ children }: TAppStateProvider) => {
+  const [cart, dispatch] = useReducer(cartReducer, {});
 
   const addProduct = useCallback((product: Product) => {
-    setCart((previousState) => {
-      if (!(product.id in previousState)) {
-        return { ...previousState, [product.id]: { ...product, quantity: 1 } };
-      }
-
-      const previousQuantity = previousState[product.id].quantity;
-
-      return {
-        ...previousState,
-        [product.id]: { ...product, quantity: previousQuantity + 1 }
-      };
-    });
+    dispatch({ type: 'ADD_PRODUCT', product });
   }, []);
 
   const removeProduct = useCallback((product: Product) => {
-    setCart((previousState) => {
-      if (!(product.id in previousState)) {
-        return previousState;
-      }
-
-      const newQuantity = previousState[product.id].quantity - 1;
-
-      if (newQuantity > 0) {
-        return { ...previousState, [product.id]: { ...product, quantity: newQuantity } };
-      }
-
-      return Object.keys(previousState)
-        .filter(key => key !== String(product.id))
-        .reduce((accumulator, key) => ({
-          ...accumulator,
-          [key]: previousState[Number(key)]
-        }), {});
-    });
+    dispatch({ type: 'REMOVE_PRODUCT', product });
   }, []);
 
   const clearCart = useCallback(() => {
-    setCart({});
+    dispatch({ type: 'CLEAR_CART' });
   }, []);
 
   return (
-    <AppContext.Provider value={{ cart, clearCart, addProduct, removeProduct }}>
+    <AppStateContext.Provider value={{ cart, clearCart, addProduct, removeProduct }}>
       {children}
-    </AppContext.Provider>
+    </AppStateContext.Provider>
   );
 };
 
-export const useApp = () => useContext(AppContext);
+export const useAppState = () => useContext(AppStateContext);

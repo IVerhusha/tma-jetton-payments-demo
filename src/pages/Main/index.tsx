@@ -5,12 +5,12 @@ import { useMainButton } from '@/hooks/useMainButton';
 import data from '@/assets/products.json';
 import ProductCard from '@/components/ProductCard';
 import Header from '@/components/Header';
-import { useApp } from '@/context/app-context.tsx';
+import { useAppState } from '@/context/app-context.tsx';
 import styles from './styles.module.scss';
 
 const Main = () => {
   const navigate = useNavigate();
-  const { cart, addProduct, removeProduct } = useApp();
+  const { cart, addProduct, removeProduct } = useAppState();
   const address = useTonAddress();
   const { open } = useTonConnectModal();
 

@@ -1,9 +1,10 @@
 import { createContext, ReactNode, useState } from 'react';
+import { CHAIN } from '@tonconnect/ui-react';
 import { TonClient } from '@ton/ton';
 import { useTonConnect } from '@/hooks/useTonConnect.ts';
 import { useAsyncInitialize } from '@/hooks/useAsyncInitialize.ts';
 import { getHttpEndpoint } from '@orbs-network/ton-access';
-import { CHAIN } from '@tonconnect/ui-react';
+
 
 type TonClientProvider = {
   children: ReactNode
