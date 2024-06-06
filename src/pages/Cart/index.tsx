@@ -14,16 +14,14 @@ import { useGenerateId } from '@/hooks/useGenerateId.ts';
 import Header from '@/components/Header';
 import { EmptyCart } from '@/constants/icons.tsx';
 import { JETTON_TRANSFER_GAS_FEES } from '@/constants/fees.constants.ts';
-import { useTonClient } from '@/context/ton-client-context.tsx';
 import styles from './styles.module.scss';
 
 const Cart = () => {
   const { cart, clearCart, addProduct, removeProduct } = useApp();
-  const { tonClient } = useTonClient();
   const navigate = useNavigate();
   const { open } = useTonConnectModal();
   const orderId = useGenerateId();
-  const { sender, walletAddress } = useTonConnect();
+  const { sender, walletAddress, tonClient } = useTonConnect();
 
   const isEmptyCart = !Object.keys(cart).length;
 

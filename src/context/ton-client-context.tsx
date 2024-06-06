@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useState } from 'react';
 import { TonClient } from '@ton/ton';
 import { useTonConnect } from '@/hooks/useTonConnect.ts';
 import { useAsyncInitialize } from '@/hooks/useAsyncInitialize.ts';
@@ -17,7 +17,7 @@ const initialContext = {
   tonClient: undefined,
 };
 
-const TonClientContext = createContext<TonClientContextProviderValue>(initialContext);
+export const TonClientContext = createContext<TonClientContextProviderValue>(initialContext);
 
 export const TonClientProvider = ({ children }: TonClientProvider) => {
   const { network } = useTonConnect();
@@ -41,5 +41,3 @@ export const TonClientProvider = ({ children }: TonClientProvider) => {
     </TonClientContext.Provider>
   );
 };
-
-export const useTonClient = () => useContext(TonClientContext);
