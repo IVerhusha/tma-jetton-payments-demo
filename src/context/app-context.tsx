@@ -1,7 +1,5 @@
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
-import { TonClient } from '@ton/ton';
 import { TProduct } from '@/types/common-types.ts';
-import { useTonClient } from '@/hooks/useTonClient.ts';
 
 export type Product = TProduct;
 
@@ -15,8 +13,7 @@ type AppContextProviderValue = {
   cart: Cart;
   addProduct: (product: Product) => void;
   removeProduct: (product: Product) => void;
-  setCart: (cart: Cart) => void;
-  tonClient?: TonClient
+  clearCart: () => void;
 }
 
 const initialContext = {
@@ -25,7 +22,7 @@ const initialContext = {
   },
   removeProduct: () => {
   },
-  setCart: () => {
+  clearCart: () => {
   }
 };
 
@@ -33,7 +30,6 @@ const AppContext = createContext<AppContextProviderValue>(initialContext);
 
 export const AppProvider = ({ children }: TAppProvider) => {
   const [cart, setCart] = useState<Cart>({});
-  const { client } = useTonClient();
 
   const addProduct = useCallback((product: Product) => {
     setCart((previousState) => {
@@ -71,8 +67,12 @@ export const AppProvider = ({ children }: TAppProvider) => {
     });
   }, []);
 
+  const clearCart = useCallback(() => {
+    setCart({});
+  }, []);
+
   return (
-    <AppContext.Provider value={{ cart, setCart, addProduct, removeProduct, tonClient: client }}>
+    <AppContext.Provider value={{ cart, clearCart, addProduct, removeProduct }}>
       {children}
     </AppContext.Provider>
   );

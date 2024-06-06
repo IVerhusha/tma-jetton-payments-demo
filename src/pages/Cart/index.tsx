@@ -13,12 +13,13 @@ import { INVOICE_WALLET_ADDRESS, USDT_MASTER_ADDRESS } from '@/constants/common-
 import { useGenerateId } from '@/hooks/useGenerateId.ts';
 import Header from '@/components/Header';
 import { EmptyCart } from '@/constants/icons.tsx';
-import styles from './styles.module.scss';
 import { JETTON_TRANSFER_GAS_FEES } from '@/constants/fees.constants.ts';
-
+import { useTonClient } from '@/context/ton-client-context.tsx';
+import styles from './styles.module.scss';
 
 const Cart = () => {
-  const { cart, setCart, addProduct, removeProduct, tonClient } = useApp();
+  const { cart, clearCart, addProduct, removeProduct } = useApp();
+  const { tonClient } = useTonClient();
   const navigate = useNavigate();
   const { open } = useTonConnectModal();
   const orderId = useGenerateId();
@@ -48,12 +49,12 @@ const Cart = () => {
         value: JETTON_TRANSFER_GAS_FEES,
       });
       navigate('/transaction-sent');
-      setCart({});
+      clearCart();
       console.log(`See transaction at https://testnet.tonviewer.com/${usersUsdtAddress.toString()}`);
     } catch (error) {
       console.log('Error during transaction check:', error);
     }
-  }, [tonClient, walletAddress, sender, orderId, totalCost, setCart, navigate]);
+  }, [tonClient, walletAddress, sender, orderId, totalCost, clearCart, navigate]);
 
   const handleConnectWallet = useCallback(() => {
     open();
@@ -67,10 +68,10 @@ const Cart = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Header/>
+      <Header />
       {isEmptyCart
         ? (<div className={styles.isEmpty}>
-          <EmptyCart/>
+          <EmptyCart />
           <h4>Cart is empty</h4>
         </div>)
         : (<>
