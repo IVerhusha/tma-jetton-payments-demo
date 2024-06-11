@@ -5,7 +5,8 @@ import { useIntegration } from '@tma.js/react-router-integration';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { routes } from '@/constants/routes.ts';
 import { ErrorBoundary } from '@/components/ErrorBoundary.tsx';
-import { AppProvider } from '@/context/app-context.tsx';
+import { AppStateProvider } from '@/context/app-context.tsx';
+import { TonClientProvider } from '@/context/ton-client-context.tsx';
 
 const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
   <div>
@@ -50,14 +51,16 @@ function App() {
       <TonConnectUIProvider
         manifestUrl={manifestUrl}
         actionsConfiguration={{ twaReturnUrl: 'https://t.me/tma_jetton_processing_bot/tma_jetton_processing' }}>
-        <AppProvider>
-          <Router location={location} navigator={reactNavigator}>
-            <Routes>
-              {routes.map((route) => <Route key={route.path} {...route} />)}
-              <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
-          </Router>
-        </AppProvider>
+        <TonClientProvider>
+          <AppStateProvider>
+            <Router location={location} navigator={reactNavigator}>
+              <Routes>
+                {routes.map((route) => <Route key={route.path} {...route} />)}
+                <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+            </Router>
+          </AppStateProvider>
+        </TonClientProvider>
       </TonConnectUIProvider>
     </ErrorBoundary>
   );

@@ -5,9 +5,7 @@ import { isUUID } from '@/helpers/common-helpers.ts';
 import { UsdtTransaction } from '@/types/usdt-transaction.ts';
 import { AccountSubscriptionService } from '@/services/account-subscription.service.ts';
 import { INVOICE_WALLET_ADDRESS, USDT_MASTER_ADDRESS } from '@/constants/common-constants.ts';
-import { useApp } from '@/context/app-context.tsx';
 import { useTonConnect } from '@/hooks/useTonConnect.ts';
-
 
 function parseUsdtPayload(tx: Transaction): UsdtTransaction | undefined {
 
@@ -60,8 +58,7 @@ function parseUsdtPayload(tx: Transaction): UsdtTransaction | undefined {
 
 
 export const useUsdtTransactions = (): UsdtTransaction[] => {
-  const { tonClient } = useApp();
-  const { walletAddress } = useTonConnect();
+  const { walletAddress, tonClient } = useTonConnect();
   const [transactions, setTransactions] = useState<UsdtTransaction[]>([]);
   const intervalId = useRef<number | null>(null);
   const accountSubscriptionService = useRef<AccountSubscriptionService | null>(null);
