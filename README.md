@@ -60,7 +60,7 @@ LocalTunnel Documentation: [https://localtunnel.github.io/www/](https://localtun
 To configure transaction variables in `src/constants/common-constants.ts`, set the following environment variables:
 
 1. `USDT_MASTER_ADDRESS`: The master address of the USDT.
-- **Testnet**,  USDTTT token master: `kQC2sWxkwfqwsb7O3z-lRInJQO1f11qDDd8jD5wrcg27ss5h`. [Default]
+- **Testnet**,  USDTTT token master: `kQD0GKBM8ZbryVk2aESmzfU6b9b_8era_IkvBSELujFZPsyy`. [Default]
 - **Mainnet**, USD₮ `EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs`. You need to set this address manually for production.
 2. `INVOICE_WALLET_ADDRESS`: The address of the wallet where USDT will be received upon payment.
 Important: This should be the address of the usual TON wallet, not the USDT jetton wallet. 
