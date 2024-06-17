@@ -1,4 +1,4 @@
-# TMA USDt Payments Demo
+# TMA USD₮ Payments Demo
 
 This Demo TMA showcases the integration with @tonconnect/ui-react and simple processing of USD₮ invoice by [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) in comment.
 
@@ -7,12 +7,13 @@ This Demo TMA showcases the integration with @tonconnect/ui-react and simple pro
   <img src="static/demo-pic-1.png" alt="Demo Picture 1" width="240"/>
 </p>
 
-<div style="display: flex; justify-content: center; align-items: center;">
-  <img src="static/TMA Demo QR.png" alt="TMA Demo QR" width="100" style="margin-right: 20px;"/>
-  <div>
-    Experience it live at <a href="https://t.me/tma_jetton_processing_bot/tma_jetton_processing">TMA live demo [TESTNET]</a>
-  </div>
-</div>
+# Give a Try on Testnet
+
+| Action | Link and QR Code |
+| --- | --- |
+| **1. Get [TESTNET] Toncoins on your [Testnet TON Wallet](https://docs.ton.org/participate/wallets/apps#tonkeeper-test-environment) via [Test Giver Bot](https://t.me/tma_jetton_processing_bot/testgiver_ton_bot).** | ![Test Giver Bot](static%2Ft_me-testgiver_ton_bot.jpg) |
+| **2. Get [TESTNET] USDt on your Testnet TON Wallet via [USDt giver bot](https://t.me/testnet_usdt_giver_bot). Testnet Toncoin from step (1) required for this step.** | ![USDt giver bot](static%2Ft_me-testnet_usdt_giver_bot.jpg) |
+| **3. Experience [TESTNET] live demo at [tma_jetton_processing_bot](https://t.me/tma_jetton_processing_bot).** | ![tma_jetton_processing_bot](static%2Ft_me-tma_jetton_processing_bot.jpg) |
 
 
 ## Installation
@@ -60,7 +61,7 @@ To configure transaction variables in `src/constants/common-constants.ts`, set t
 
 1. `USDT_MASTER_ADDRESS`: The master address of the USDT.
 - **Testnet**,  USDTTT token master: `kQC2sWxkwfqwsb7O3z-lRInJQO1f11qDDd8jD5wrcg27ss5h`. [Default]
-- **Mainnet**, USD₮ `EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs`.
+- **Mainnet**, USD₮ `EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs`. You need to set this address manually for production.
 2. `INVOICE_WALLET_ADDRESS`: The address of the wallet where USDT will be received upon payment.
 Important: This should be the address of the usual TON wallet, not the USDT jetton wallet. 
 The address of the USDT jetton wallet will be calculated upon sending.
