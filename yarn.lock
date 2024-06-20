@@ -519,10 +519,10 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.18.0.tgz#5d694d345ce36b6ecf657349e03eb87297e68da4"
   integrity sha512-UOo5FdvOL0+eIVTgS4tIdbW+TtnBLWg1YBCcU2KWM7nuNwRz9bksDX1bekJJCpu25N1DVWaCwnT39dVQxzqS8g==
 
-"@tma.js/react-router-integration@^4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@tma.js/react-router-integration/-/react-router-integration-4.0.2.tgz#318fae5b65478c87b52c1c4790600d7fcca068b1"
-  integrity sha512-jTtarVEKUC+j2G8Q1RaMHcguQR10XN3CQKSePLcKXHRburXhJLypajgBmHVxhnBLb3G1OJU6yV+fmmIvnJs3Tw==
+"@tma.js/react-router-integration@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@tma.js/react-router-integration/-/react-router-integration-4.0.3.tgz#37998c56afcc3afd8f1620abc4a338b107858db9"
+  integrity sha512-yORPUds45tLU3H8w11Yf/BdcZl/MBswL5ptjk0szb/1mi8oDKZFzVflxRaB5cw60ok2wuQlvbMMdqh3yG2PKpw==
 
 "@tma.js/sdk-react@^2.2.5":
   version "2.2.5"
