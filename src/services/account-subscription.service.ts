@@ -1,57 +1,64 @@
-import { Address, TonClient, Transaction } from "@ton/ton";
-import { retry } from "@/helpers/common-helpers.ts";
+import { Address, TonClient, Transaction } from '@ton/ton';
+import { retry } from '@/helpers/common-helpers.ts';
 
 export class AccountSubscriptionService {
   constructor(
     readonly client: TonClient,
     readonly accountAddress: Address,
     readonly onTransactions: (txs: Transaction[]) => Promise<void> | void,
-    private startTime = 0,
   ) {
   }
 
   private lastIndexedLt?: string;
-  private lastTransactionHash?: string;
 
-  async getTransactionsBatch() {
-    let transactions = await retry(() => this.client.getTransactions(this.accountAddress, {
-      lt: this.lastIndexedLt,
+  async getTransactionsBatch(toLt?: string, lt?: string, hash?: string) {
+    const transactions = await retry(() => this.client.getTransactions(this.accountAddress, {
+      lt,
       limit: 100,
-      hash: this.lastTransactionHash,
+      hash,
+      to_lt: toLt,
+      inclusive: false,
       archival: true,
     }), { retries: 10, delay: 1000 });
-    transactions = transactions.filter(tx => tx.now > this.startTime);
 
     if (transactions.length === 0) {
       return { hasMore: false, transactions };
     }
 
     const lastTransaction = transactions.at(-1)!;
-    this.lastIndexedLt = lastTransaction.lt.toString();
-    this.lastTransactionHash = lastTransaction.hash().toString('base64');
 
-    return { hasMore: true, transactions };
+    return {
+      hasMore: true,
+      transactions,
+      lt: lastTransaction.lt.toString(),
+      hash: lastTransaction.hash().toString('base64'),
+    };
   }
 
   async subscribeToTransactionUpdate(): Promise<void> {
-    this.lastTransactionHash = undefined;
-    this.lastIndexedLt = undefined;
-
-    let iterationStartTime: number = this.startTime;
-
+    let iterationStartLt: string = '';
     let hasMore = true;
+    let lt: string | undefined;
+    let hash: string | undefined;
 
     while (hasMore) {
-      const res = await this.getTransactionsBatch();
-
+      const res = await this.getTransactionsBatch(this.lastIndexedLt, lt, hash);
       hasMore = res.hasMore;
+      lt = res.lt;
+      hash = res.hash;
+
       if (res.transactions.length > 0) {
-        iterationStartTime = Math.max(res.transactions[0].now, iterationStartTime);
+        if (!iterationStartLt) {
+          iterationStartLt = res.transactions[0].lt.toString();
+        }
+
         await this.onTransactions(res.transactions);
       }
     }
 
-    this.startTime = iterationStartTime;
+    if (iterationStartLt) {
+      this.lastIndexedLt = iterationStartLt;
+    }
   }
 
   start(): number {
