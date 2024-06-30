@@ -1,6 +1,6 @@
 # TMA USD₮ Payments Demo
 
-This Demo TMA showcases the integration with @tonconnect/ui-react and simple processing of USD₮ invoice by [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) in comment.
+This Demo TMA showcases the integration with [@tonconnect/ui-react](https://www.npmjs.com/package/@tonconnect/ui-react) and simple processing of USD₮ invoice by [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) in comment.
 
 <p align="center">
   <img src="static/demo-pic-2.png" alt="Demo Picture 2" width="240"/>
@@ -9,42 +9,21 @@ This Demo TMA showcases the integration with @tonconnect/ui-react and simple pro
 
 # Give a Try on Testnet
 
-| Action | Link and QR Code |
-| --- | --- |
-| **1. Get [TESTNET] Toncoins on your [Testnet TON Wallet](https://docs.ton.org/participate/wallets/apps#tonkeeper-test-environment) via [Test Giver Bot](https://t.me/tma_jetton_processing_bot/testgiver_ton_bot).** | ![Test Giver Bot](static%2Ft_me-testgiver_ton_bot.jpg) |
-| **2. Get [TESTNET] USDt on your Testnet TON Wallet via [USDt giver bot](https://t.me/testnet_usdt_giver_bot). Testnet Toncoin from step (1) required for this step.** | ![USDt giver bot](static%2Ft_me-testnet_usdt_giver_bot.jpg) |
-| **3. Experience [TESTNET] live demo at [tma_jetton_processing_bot](https://t.me/tma_jetton_processing_bot).** | ![tma_jetton_processing_bot](static%2Ft_me-tma_jetton_processing_bot.jpg) |
+| Action | Link and QR Code                                                        |
+| --- |-------------------------------------------------------------------------|
+| **Get [TESTNET] Toncoins on your [Testnet TON Wallet](https://docs.ton.org/participate/wallets/apps#tonkeeper-test-environment) via [Test Giver Bot](https://t.me/tma_jetton_processing_bot/testgiver_ton_bot).** | ![Test Giver Bot](static/t_me-testgiver_ton_bot.jpg)                    |
+| **Get [TESTNET] USDt on your Testnet TON Wallet via [USDt giver bot](https://t.me/testnet_usdt_giver_bot). Testnet Toncoin from step (1) required for this step.** | ![USDt giver bot](static/t_me-testnet_usdt_giver_bot.jpg)               |
+| **Experience [TESTNET] live demo at [tma_jetton_processing_bot](https://t.me/tma_jetton_processing_bot).** | ![tma_jetton_processing_bot](static/t_me-tma_jetton_processing_bot.jpg) |
 
+## Prerequisites
 
-## Installation
+### Create Mini App
 
-### 1. Install the necessary packages for this project:
+First of all, to correctly display the application and get the most accurate development experience, you
+have to create a Telegram Mini App. After completing this step, you will be able to view the application inside 
+Telegram.
 
-```bash
-npm install
-```
-
-### 2. ngrok or localtunnel
-
-Choose either ngrok or `localtunnel` to expose your local server to the internet for testing in Telegram.
-
-#### a. ngrok Installation
-
-```bash
-npm install -g ngrok
-```
-
-ngrok Documentation: [https://ngrok.com/docs](https://ngrok.com/docs)
-
-#### b. localtunnel Installation
-
-```bash
-npm install -g localtunnel
-```
-
-LocalTunnel Documentation: [https://localtunnel.github.io/www/](https://localtunnel.github.io/www/)
-
-### 3. Creating Telegram Mini Apps
+Here is the short guide on how to do it:
 
 1. Open [@BotFather](https://t.me/BotFather) in Telegram.
 2. Send the `/newbot` command to create a new bot.
@@ -53,20 +32,49 @@ LocalTunnel Documentation: [https://localtunnel.github.io/www/](https://localtun
 5. Select your bot from the list.
 6. Provide all the required information for your Mini App.
 
-## Running the TMA
+### Install Tunneler
 
-### 1. Setting Transaction Variables
+To view the application on other devices, it is required to use any service, allowing you to generate a valid HTTPS
+link.
+
+You can use [ngrok]([https://ngrok.com/docs]), [localtunnel](https://localtunnel.github.io/www/), or any other 
+known to you.
+
+To install these packages globally, use one of the following commands:
+
+```bash
+# Installs ngrok.
+yarn install -g ngrok
+```
+
+```bash
+# Installs localtunnel.
+yarn install -g localtunnel
+```
+
+### Install Dependencies
+
+To install project dependencies, use the following command:
+
+```bash
+yarn install
+```
+
+## Running
+
+### Setting Transaction Variables
 
 To configure transaction variables in `src/constants/common-constants.ts`, set the following environment variables:
 
-1. `USDT_MASTER_ADDRESS`: The master address of the USDT.
-- **Testnet**,  USDTTT token master: `kQD0GKBM8ZbryVk2aESmzfU6b9b_8era_IkvBSELujFZPsyy`. [Default]
-- **Mainnet**, USD₮ `EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs`. You need to set this address manually for production.
-2. `INVOICE_WALLET_ADDRESS`: The address of the wallet where USDT will be received upon payment.
-Important: This should be the address of the usual TON wallet, not the USDT jetton wallet. 
-The address of the USDT jetton wallet will be calculated upon sending.
+- `USDT_MASTER_ADDRESS`: The master address of the USDT.
+  - **Testnet**,  USDTTT token master: `kQD0GKBM8ZbryVk2aESmzfU6b9b_8era_IkvBSELujFZPsyy`. [Default]
+  - **Mainnet**, USD₮ `EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs`. You need to set this address manually 
+  for production.
+- `INVOICE_WALLET_ADDRESS`: The address of the wallet where USDT will be received upon payment.
+  > **Important**: This should be the address of the usual TON wallet, not the USDT jetton wallet. 
+  > The address of the USDT jetton wallet will be calculated upon sending.
 
-### 2. Starting the Application
+### Starting Application
 
 To start the application, run:
 
@@ -76,46 +84,45 @@ npm run dev
 
 The application will be accessible at [http://localhost:5173](http://localhost:5173).
 
-### 3. Exposing Your Local Server (Optional)
+### Exposing Your Local Server (Optional)
 
-#### a. Using `ngrok`
+#### Using `ngrok`
 
 ```bash
 ngrok http 5173
 ```
 
-#### b. Using `localtunnel`
+#### Using `localtunnel`
 
 ```bash
 lt --port 5173
 ```
 
-After setting up ngrok or localtunnel, update your Telegram bot's configuration with the provided URL to ensure the bot points to your local development environment.
+After setting up ngrok or localtunnel, update your Telegram bot's configuration with the provided URL to ensure the 
+bot points to your local development environment.
 
-### 4. Updating Telegram Bot Configuration (Optional)
+### Updating Telegram Bot Configuration (Optional)
 
-#### a. Update the Menu Button URL in Telegram Bot
+#### Update the Menu Button URL in Telegram Bot
 
 1. Open [@BotFather](https://t.me/BotFather) in Telegram.
 2. Send the `/mybots` command and select your bot.
 3. Choose "Bot Settings" then "Menu Button" and finally "Configure menu button".
 4. Enter the ngrok or localtunnel URL as the new destination.
 
-#### b. Update Mini Apps URL in Telegram
+#### Update Mini Apps URL in Telegram
 
 1. Open [@BotFather](https://t.me/BotFather) in Telegram.
 2. Send the `/myapps` command and select your Mini App.
 3. Choose "Edit Web App URL".
 4. Enter the ngrok or localtunnel URL as the new destination.
 
-
 ## Learn More About Ton Connect
 
-To understand more about Ton Connect and how it enables blockchain functionalities in your applications, refer to the following resources:
-- Ton Connect Documentation: [https://docs.ton.org/develop/dapps/ton-connect/](https://docs.ton.org/develop/dapps/ton-connect/)
-- Ton Connect SDK and UI Library on GitHub: [https://github.com/ton-connect/sdk/tree/main/packages/ui](https://github.com/ton-connect/sdk/tree/main/packages/ui)
-
-
+To understand more about Ton Connect and how it enables blockchain functionalities in your applications, refer to the
+following resources:
+- [Ton Connect Documentation](https://docs.ton.org/develop/dapps/ton-connect/)
+- [Ton Connect SDK and UI Library on GitHub](https://github.com/ton-connect/sdk/tree/main/packages/ui)
 
 ## Advanced
 
@@ -151,24 +158,24 @@ Here is a sample configuration for adding a custom wallet:
 
 ```jsx
 <TonConnectUIProvider
-    manifestUrl="https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json"
-    uiPreferences={{ theme: THEME.DARK }}
-    walletsListConfiguration={{
-        includeWallets: [
-            {
-                appName: "telegram-wallet",
-                name: "Wallet",
-                imageUrl: "https://wallet.tg/images/logo-288.png",
-                aboutUrl: "https://wallet.tg/",
-                universalLink: "https://t.me/wallet/start",
-                bridgeUrl: "https://bridge.tonapi.io/bridge",
-                platforms: ["ios", "android", "macos", "windows", "linux"]
-            }
-        ]
-    }}
-    actionsConfiguration={{
-        twaReturnUrl: 'https://t.me/WebAppWalletBot/myapp'
-    }}
+  manifestUrl="https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json"
+  uiPreferences={{ theme: THEME.DARK }}
+  walletsListConfiguration={{
+    includeWallets: [
+      {
+        appName: "telegram-wallet",
+        name: "Wallet",
+        imageUrl: "https://wallet.tg/images/logo-288.png",
+        aboutUrl: "https://wallet.tg/",
+        universalLink: "https://t.me/wallet/start",
+        bridgeUrl: "https://bridge.tonapi.io/bridge",
+        platforms: ["ios", "android", "macos", "windows", "linux"]
+      }
+    ]
+  }} 
+  actionsConfiguration={{
+    twaReturnUrl: 'https://t.me/WebAppWalletBot/myapp'
+  }}
 ></TonConnectUIProvider>
 ```
 
