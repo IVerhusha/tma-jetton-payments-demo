@@ -1,4 +1,4 @@
-import { useBackButton as useBackButtonComponent } from '@tma.js/sdk-react';
+import { useBackButton as useBackButtonComponent } from '@telegram-apps/sdk-react';
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 

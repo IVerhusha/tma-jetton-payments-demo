@@ -1,4 +1,4 @@
-import { useMainButton as useMainButtonComponent } from '@tma.js/sdk-react';
+import { useMainButton as useMainButtonComponent } from '@telegram-apps/sdk-react';
 import { useEffect } from 'react';
 
 type Props = {

@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { Navigate, Route, Router, Routes } from 'react-router-dom';
-import { initNavigator, useMiniApp, useViewport } from '@tma.js/sdk-react';
-import { useIntegration } from '@tma.js/react-router-integration';
+import { initNavigator, useMiniApp, useViewport } from '@telegram-apps/sdk-react';
+import { useIntegration } from '@telegram-apps/react-router-integration';
 
 import { routes } from '@/constants/routes.ts';
 

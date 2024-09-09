@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { UsdtTransaction } from '@/types/usdt-transaction.ts';
 import { calculateUsdFromUsdt } from '@/helpers/common-helpers.ts';
-import { useUtils } from '@tma.js/sdk-react';
+import { useUtils } from '@telegram-apps/sdk-react';
 import { useTonConnect } from '@/hooks/useTonConnect.ts';
 import { CHAIN } from '@tonconnect/ui-react';
 import styles from './styles.module.scss';
